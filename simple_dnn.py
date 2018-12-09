@@ -30,12 +30,15 @@ class Simple_dnn(object):
             self.weights = self._initialize_weights()
 
             # Model
-            layer1 = tf.nn.relu(tf.matmul(self.train_features, self.weights['h1']) + self.weights['b1'])
-            layer2 = tf.nn.relu(tf.matmul(layer1, self.weights['h2']) + self.weights['b2'])
-            self.out_layer = tf.matmul(layer2, self.weights['out']) + self.weights['b_o']
+            layer1 = tf.sigmoid(tf.matmul(self.train_features, self.weights['h1']) + self.weights['b1'])
+            layer2 = tf.sigmoid(tf.matmul(layer1, self.weights['h2']) + self.weights['b2'])
+            self.out_layer = tf.sigmoid(tf.matmul(layer2, self.weights['out']) + self.weights['b_o'])
 
             # Loss
-            self.loss  = tf.nn.l2_loss(tf.subtract(self.train_lables, self.out_layer))
+            #self.loss  = tf.nn.l2_loss(tf.subtract(self.train_lables, self.out_layer))
+            vars = tf.trainable_variables()
+            self.loss = tf.reduce_mean(tf.losses.log_loss(self.train_lables, self.out_layer))\
+                        +  tf.add_n([ tf.nn.l2_loss(v) for v in vars ]) * 0.001
 
             # Optimizer
             self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate, beta1=0.9, beta2=0.999,
@@ -91,6 +94,7 @@ class Simple_dnn(object):
     # def train(self, Train_Data, Val_Data, Test_Data):
     def train(self, Train_Data, Test_Data):
         for epoch in range(self.epoch):
+            total_loss = 0
             total_batch = int(len(Train_Data['X'])/self.batch_size)
             for i in range(total_batch):
                 if i % 1000 == 0:
@@ -99,7 +103,8 @@ class Simple_dnn(object):
                 batch_xs = self.get_random_block_from_data(Train_Data, self.batch_size)
 
                 loss = self.partial_fit(batch_xs)
-
+                total_loss = total_loss + loss
+            print('Epoch {}/{} Loss{}'.format(epoch + 1, self.epoch, total_loss))
             # self.evaluate(epoch, Val_Data)
             # if (epoch+1) % 5 == 0:
             self.predict(epoch, Test_Data)
@@ -169,11 +174,11 @@ class Simple_dnn(object):
 
         print('TEST Epoch{} NDCG{}'.format(epoch+1, ndcg))
 
-        # auc = cal_auc(truth, pred)
+        auc = cal_auc(truth, pred)
         #
-        # print('TEST Epoch{} AUC{}'.format(epoch+1, auc))
+        print('TEST Epoch{} AUC{}'.format(epoch+1, auc))
 
-        result_file_name = "1Simple_dnn" + "+learning_rate_" + str(self.learning_rate) + "+epoch_" + str(epoch + 1)
+        result_file_name = "Simple_dnn" + "+learning_rate_" + str(self.learning_rate) + "+epoch_" + str(epoch + 1)
 
         result_file_path = "./results/Simple_dnn/" + result_file_name
 
@@ -186,17 +191,18 @@ class Simple_dnn(object):
 
 if __name__ == '__main__':
     # Load Data
+    print("DV UV learning rate = 0.0001 debug")
     print("Loading Data")
 #    Train_Data = build_train_simple_dnn(udpairs_dv_uv_train)
 #    Val_Data = build_train_simple_dnn(udpairs_dv_uv_val)
 #    Test_Data = build_train_simple_dnn(udpairs_dv_uv_test_raw)
     # Train_Data = build_train_simple_dnn(udpairs_dv_uv_small)
-    # Val_Data = build_train_simple_dnn(udpairs_dv_uv_small)
+    #Val_Data = build_train_simple_dnn(udpairs_dv_uv_small)
     # Test_Data = build_train_simple_dnn(udpairs_dv_uv_small)
-    Train_Data = build_train_simple_dnn_session(udpairs_dv_uv_session_train_sample)
-    Test_Data = build_train_simple_dnn_session("./data/2018-11-15.standardized.udPairs_dv_uv_session_test.tsv")
+    Train_Data = build_train_simple_dnn_session("./data/exp_compare/2018-11-15_train_f.tsv")
+    Test_Data = build_train_simple_dnn_session("./data/exp_compare/2018-11-16_test_ff.tsv")
     print("Build model")
     # Build model & train
-    model  = Simple_dnn(n_input = 180, hidden_factor = [256, 256], learning_rate = 0.001, epoch = 100, batch_size = 1024, random_seed = 2018)
+    model  = Simple_dnn(n_input = 180, hidden_factor = [256, 256], learning_rate = 0.0001, epoch = 100, batch_size = 1024, random_seed = 2018)
 #    model.train(Train_Data, Val_Data, Test_Data)
     model.train(Train_Data, Test_Data)

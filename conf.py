@@ -2,7 +2,9 @@ udpairs_dv_uv_small = "./data/2018-11-15.standardized.udPairs_dv_uv_small.tsv"
 udpairs_dv_uv = "./data/2018-11-15.standardized.udPairs_dv_uv.tsv"
 udpairs_dv_uv_train_val_raw = "./data/2018-11-15.standardized.udPairs_dv_uv_train_val.tsv"
 udpairs_dv_uv_train_val_sample = "./data/2018-11-15.standardized.udPairs_dv_uv_train_val_sample.tsv"
-udpairs_dv_uv_test_raw = "./data/2018-11-15.standardized.udPairs_dv_uv_test.tsv"
+udpairs_dv_uv_train_val_raw_small = "./data/2018-11-15.standardized.udPairs_dv_uv_train_val_small.tsv"
+udpairs_dv_uv_train_val_sample_small = "./data/2018-11-15.standardized.udPairs_dv_uv_train_val_sample_small.tsv"
+udpairs_dv_uv_test_raw_small = "./data/2018-11-15.standardized.udPairs_dv_uv_test_small.tsv"
 udpairs_dv_uv_train = "./data/2018-11-15.standardized.udPairs_dv_uv_train.tsv"
 udpairs_dv_uv_val = "./data/2018-11-15.standardized.udPairs_dv_uv_val.tsv"
 
@@ -10,6 +12,9 @@ udpairs_dv_uv_session_train = "./data/2018-11-15.standardized.udPairs_dv_uv_sess
 udpairs_dv_uv_session_test = "./data/2018-11-15.standardized.udPairs_dv_uv_session_test.tsv"
 
 udpairs_dv_uv_session_train_sample = "./data/2018-11-15.standardized.udPairs_dv_uv_session_train_sample.tsv"
+
+ud_pairs_remove_dv_uv_session_file_train = "./data/2018-11-15.standardized.udPairs_dv_uv_session_train_remove.tsv"
+ud_pairs_remove_dv_uv_session_file_test = "./data/2018-11-15.standardized.udPairs_dv_uv_session_test_remove.tsv"
 
 
 #statistics

@@ -3,6 +3,7 @@ import numpy as np
 from conf import *
 import csv
 from metric import *
+import random
 
 # fp_score = open(dot_cos_socre_file_small,'w')
 #
@@ -30,13 +31,17 @@ pred = []
 sess_id = []
 
 
-with open(udpairs_dv_uv_session_test) as tsvfile:
+with open("D:/v-danyal/MSN/data/exp_debug/2018-11-16_session_dv_uv_f.tsv") as tsvfile:
     reader = csv.reader(tsvfile, delimiter='\t')
     for row in reader:
         sess_id.append(row[0])
-        truth.append([float(row[1])])
-        pred.append([float(row[4])])
+        truth.append([float(row[3])])
+        pred.append([float(row[5])])
+        # pred.append([random.random()])
 
+# auc = cal_auc(truth, pred)
+#
+# print(auc)
 
 ndcg = []
 truth_i = []

@@ -100,6 +100,23 @@ def build_train_simple_dnn_session(file):
 #     with open(file) as tsvfile:
 #         reader = csv.reader(tsvfile, delimiter='\t')
 #         for row in reader:
+#             combine_vector = get_combine_vec(row[9], row[10])
+#             X.append(combine_vector)
+#             Y.append([float(row[3])])
+#             Sess_id.append(row[0])
+#     Data['X'] = X
+#     Data['Y'] = Y
+#     Data['Sess_id'] = Sess_id
+#     return Data
+
+# def build_train_simple_dnn_session(file):
+#     Data = {}
+#     X = []
+#     Y = []
+#     Sess_id = []
+#     with open(file) as tsvfile:
+#         reader = csv.reader(tsvfile, delimiter='\t')
+#         for row in reader:
 #             combine_vector = get_combine_vec2(row[6], row[7], row[9], row[10])
 #             X.append(combine_vector)
 #             Y.append([float(row[3])])

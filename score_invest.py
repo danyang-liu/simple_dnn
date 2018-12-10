@@ -31,17 +31,17 @@ pred = []
 sess_id = []
 
 
-with open("D:/v-danyal/MSN/data/exp_debug/2018-11-16_session_dv_uv_f.tsv") as tsvfile:
+with open("D:/v-danyal/MSN/data/exp_compare/2018-11-16_test_ff.tsv") as tsvfile:
     reader = csv.reader(tsvfile, delimiter='\t')
     for row in reader:
         sess_id.append(row[0])
         truth.append([float(row[3])])
-        pred.append([float(row[5])])
-        # pred.append([random.random()])
+        #pred.append([float(row[5])])
+        pred.append([random.random()])
 
-# auc = cal_auc(truth, pred)
+auc = cal_auc(truth, pred)
 #
-# print(auc)
+print(auc)
 
 ndcg = []
 truth_i = []
